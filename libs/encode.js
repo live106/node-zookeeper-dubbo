@@ -9,13 +9,14 @@ function Encode(opt) {
   this._opt = opt;
   const body = this._body(opt._method, opt._args);
   const head = this._head(body.length);
+
   return Buffer.concat([head, body]);
 }
 
 Encode.prototype._head = function (len) {
   const head = [0xda, 0xbb, 0xc2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
   let i    = 15;
-  if (len > DEFAULT_LEN) {
+  if (len > this._opt._body_max_len || DEFAULT_LEN) {
     throw new Error(`Data length too large: ${len}, max payload: ${DEFAULT_LEN}`);
   }
   while (len >= 256) {
