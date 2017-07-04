@@ -33,9 +33,9 @@ var NZD                 = function (opt) {
   this.dependencies = opt.dependencies || {};
   SERVICE_LENGTH    = Object.keys(this.dependencies).length;
   this.client       = zookeeper.createClient(opt.register, {
-    sessionTimeout: 30000,
-    spinDelay     : 1000,
-    retries       : 5
+    sessionTimeout: opt.sessionTimeout || 30000,
+    spinDelay     : opt.spinDelay || 1000,
+    retries       : opt.retries || 5
   });
 
   this.client.connect();
