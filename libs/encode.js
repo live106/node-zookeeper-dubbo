@@ -3,7 +3,6 @@
  */
 'use strict';
 const Encoder     = require('hessian.js').EncoderV2;
-const DEFAULT_LEN  = 8388608; // 8 * 1024 * 1024 default body max length
 
 function Encode(opt) {
   this._opt = opt;
@@ -16,7 +15,7 @@ function Encode(opt) {
 Encode.prototype._head = function (len) {
   const head = [0xda, 0xbb, 0xc2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
   let i    = 15;
-  if (len > this._opt._body_max_len || DEFAULT_LEN) {
+  if (len > this._opt._body_max_len) {
     throw new Error(`Data length too large: ${len}, max payload: ${DEFAULT_LEN}`);
   }
   while (len >= 256) {
@@ -29,7 +28,7 @@ Encode.prototype._head = function (len) {
 
 Encode.prototype._body = function (method, args) {
   const body = new Encoder();
-  body.write(this._opt._dver || '2.5.3.6');
+  body.write(this._opt._dver || '2.5.3');
   body.write(this._opt._interface);
   body.write(this._opt._version);
   body.write(this._opt._method);

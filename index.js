@@ -68,7 +68,8 @@ var Service = function (zk, dubboVer, depend, root) {
     _interface: depend.interface,
     _version  : depend.version,
     _group    : depend.group,
-    _timeout  : depend.timeout || 6000
+    _timeout  : depend.timeout || 6000,
+    _body_max_len : depend.maxLength || 8388608 // 8 * 1024 * 1024 default body max length
   }
 
   this._find(depend.interface);
